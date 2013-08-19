@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='utf-8'> 
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="http://code.jquery.com/jquery.js"></script>    
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script> 
+
+    <script type="text/javascript">
+        function replaceAll(find, replace, str) 
+        {
+            while( str.indexOf(find) > 0 )
+            {
+                str = str.replace(find, replace);
+            }
+            return str;
+        };
+
+        $(document).ready(function () {
+            $('#container').append('<legend>Заполните анкету</legend>');
+
+            var q_temp = [
+                '<div id="q{n}" class="row line">',
+                '<div class="col-xs-2">',
+                '<label>Вопрос {n}</label>',
+                '</div>',
+                '<div class="col-xs-10">',
+                '{q_text}',
+                '<textarea name="q{n}" class="form-control" rows="3"></textarea>',
+                '</div>',
+                '</div>'
+                ];
+            var navbar_temp = '<li><a href="#q{n}">Вопрос {n}</a></li>';
+
+            var qx = [
+                { q_text: ['<span>Год рождения.</span>'] },
+                { q_text: ['<span>Город, в котором вы живёте.</span>'] },
+                { q_text: ['<span>Вуз, факультет, специальность, кафедра.</span>'] },
+                { q_text: ['<span>Год окончания вуза.</span>'] },
+                { q_text: ['<span>Уровень владения английским языком:</span>',
+                            '<div class="radio">',
+                                '<label><input type="radio" name="EngLevel" value="1">начальный;</label>',
+                            '</div>',
+                            '<div class="radio">',
+                                '<label><input type="radio" name="EngLevel" value="2">средний;</label>',
+                            '</div>',
+                            '<div class="radio">',
+                                '<label><input type="radio" name="EngLevel" value="3">свободное владение.</label>',
+                            '</div>']},
+                { q_text: ['<span>Чего вы ожидаете от участия в Школе?</span>'] },
+                { q_text: ['<span>Откуда вы о нас узнали?</span>'] },
+                { q_text: ['<span>Сколько времени вы были бы готовы уделять стажировке или работе в Яндексе?</span>'] },
+                { q_text: ['<span>Расскажите о вашем опыте разработки. Нам будет интересно всё — как серьезный интерфейс, так и просто домашняя страничка.</span>'] },
+                { q_text: ['<span>Если вы где-нибудь работали, расскажите, какие у вас были должностные обязанности и был ли опыт работы в команде.</span>'] },
+                { q_text: ['<span>Перечислите, какими программными продуктами вы пользуетесь в своей работе — от редактора до специализированных утилит (Intellij, Idea, Node.js, Uglify.js, GNU Make). Для каждого инструмента укажите какие задачи вы с помощью него решаете и почему выбрали именно его.</span>'] },
+                { q_text: ['<span>Пользуетесь ли вы командной строкой? Какими командами вы пользуетесь и какие задачи вы решаете с их помощью? С какими программами вы преимущественно или полностью взаимодействуете через интерфейс командной строки?</span>'] },
+                { q_text: ['<span>Напишите на JavaScript функцию, которая выводит список всех чисел, которые равны сумме факториалов своих цифр. Пример такого числа:</span>',
+                            '<p><span>4! + 0! + 5! + 8! +5! = 40585</span></p>',
+                            '<span>В качестве ответа на вопрос пришлите ссылку на <a href="http://jsfiddle.net/" target="_blank">http://jsfiddle.net/</a> с вашим кодом или на ваш репозиторий на <a href="https://github.com/" target="_blank">https://github.com/</a>.</span>'] },
+                { q_text: ['<span>Вы — пилот грузового межгалактического корабля. Ваша работа — перевозка грузов с одной планету на другую. Грузоподъемность вашего корабля ограничена, поэтому за один рейс вы можете перевезти не более N кг полезного груза. Ваш корабль умеет сообщать свое состояние (местоположение и степень загруженности), а также летать в любую точку пространства. Каждая планета может содержать на себе груз, который можно взять. Также на каждой планете груз можно оставить.</span>',
+                    '<p>Задание</p>',
+                    '<p>Даны незавершенные интерфейсы корабля и планеты. Напишите недостающий код.</p>',
+                    '<p>Полное условие задачи доступно на <a href="https://github.com/yandex-shri/introtask-space" target="_blank">https://github.com/yandex-shri/introtask-space</a>.</p>',
+                    '<span>В качестве ответа на вопрос пришлите ссылку на <a href="http://jsfiddle.net/" target="_blank">http://jsfiddle.net/</a> с вашим кодом или на ваш репозиторий на <a href="https://github.com/" target="_blank">https://github.com/</a>.</span>'] },
+                { q_text: ['<span>Сверстайте форму-анкету с нашими заданиями для кандидатов. Страница должна работать в следующих браузерах: MSIE (8, 9, 10), Google Chrome (26, 27), Firefox (20, 21), Opera (12.15, 12.14), Яндекс.Браузер 1.5. По возможности используйте приёмы безопасной деградации CSS. Страница должна содержать интерактив, реализованный с помощью JS и jQuery. Это может быть:</span>',
+                    '<ul>',
+                        '<li>проверка полноты и правильности заполнения полей (где это возможно);</li>',
+                        '<li>возможность свернуть и развернуть разделы (аккордеон);</li>',
+                        '<li>индикатор заполнения анкеты;</li><li>что-нибудь ещё.</li>',
+                    '</ul>',
+                    '<p>Подумайте над тем, как эти данные будут отправляться на сервер.</p>',
+                    '<p>Будет плюсом, если вы сверстаете страницу, используя БЭМ.</p>',
+                    '<p>Дополнительные задания</p>',
+                    '<p>1. Выполните задание про форму-анкету, используя один из классических шаблонизаторов: Handlebars, mustache, Dust, Jade и т.п.</p>',
+                    '<p>2. Выполните задание про форму-анкету, используя один из экзотических шаблонизаторов: XSLT, YATE, BEMHTML и т.п.</p>',
+                    '<p>Разработку необходимо вести на <a href="https://github.com/" target="_blank">https://github.com/</a>. В качестве ответа на вопрос пришлите ссылку на проект.</p>'] },
+
+
+            ];
+
+            form_temp = ['<div class="row">',
+                '<div class="col-xs-2">Резюме до 250 КБ</div>',
+                '<div class="col-xs-10"><input type="file" class="file" hidefocus="true" name="FileResume" value=""></div>',
+            '</div>',
+            '<div class="row">',
+                '<div class="col-xs-2">Ссылка на профиль в Моем Круге</div>',
+                '<div class="col-xs-10"><input type="url" class="form-control" placeholder="http://<your_name>.moikrug.ru/"></div>',
+            '</div>',
+            '<div class="row">',
+                '<div class="col-xs-2">Имя, Фамилия</div>',
+                '<div class="col-xs-10"><input type="text" class="form-control" placeholder="Иван Пупкин"></div>',
+            '</div>',
+            '<div class="row">',
+                '<div class="col-xs-2">Телефон</div>',
+                '<div class="col-xs-10"><input type="text" class="form-control" placeholder="+7 XXX 123-4567"></div>',
+            '</div>',
+            '<div class="row">',
+                '<div class="col-xs-2"><b>Email</b></div>',
+                '<div class="col-xs-10"><input type="email" class="form-control" id="InputEmail" placeholder="your_email@address.com"></div>',
+            '</div>',
+            '<div class="row">',
+                '<div class="col-xs-2">Дополнительные сведения</div>',
+                '<div class="col-xs-10"><textarea class="form-control" rows="3"></textarea></div>',
+            '</div>',
+            '<div class="row">',
+                '<div class="col-xs-2"></div>',
+                '<div class="col-xs-10">',
+                    'Откуда вы узнали о нашем предложении?',
+                    '<div class="row">',
+                        '<div class="btn-group">',
+                            '<button id="RecomendBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Выбрать <span class="caret"></button>',
+                            '<select id="RecomendChoise" multiple class="dropdown-menu dropdown-select" role="menu" tabindex="-1">',
+                                '<option id="Rec1">Выбрать</option>',
+                                '<option id="Rec2">от HR-менеджера Яндекса</option>',
+                                '<option id="Rec3">Я.Субботник</option>',
+                                '<option id="Rec4">Yet another Conference</option>',
+                                '<option id="Rec5">на другой конференции</option>',
+                                '<option id="Rec6">из поиска</option>',
+                                '<option id="Rec7">по рекомендации</option>',
+                                '<option id="Rec8">другое</option>',
+                            '</select>',
+                        '</div>',
+                    '</div>',
+                    '<label>',
+                        '<input type="checkbox" value="Agreement" ><b>',
+                         'Я даю свое согласие на передачу в ООО «ЯНДЕКС» резюме и/или анкеты, содержащих мои персональные данные, и согласен с тем, что они будут храниться в ООО «ЯНДЕКС» в течение 5 лет и будут обрабатываться исключительно для целей предложения мне вакансий группы компаний «ЯНДЕКС», в соответствии с Федеральным законом «О персональных данных».</b>',
+                    '</label>',
+                '</div>',
+            '</div>',
+            '<div class="row">',
+                '<div class="col-xs-2"></div>',
+                '<div class="col-xs-10">',
+                    '<button id="SubmitBtn" type="submit" class="btn btn-primary">Отправить</button>',
+                    '<button id="ResetBtn" type="reset" class="btn btn-default">Очистить</button>',
+                '</div>',
+            '</div>'];
+
+            form_temp = form_temp.join('\n');
+            q_temp = q_temp.join('\n');
+
+            for (var n = 0; n <= 14; n++) {
+                var s = q_temp.replace('{q_text}', qx[n].q_text.join('\n'), 'g');
+                s = replaceAll('{n}', (n+1), s);
+                $('#container').append(s);
+                $('#navbar').append(replaceAll('{n}', (n+1), navbar_temp));
+            }
+            $('#container').append('<div id="about"><h3>Расскажите о себе</h3></div>');
+            $('#container').append(form_temp);
+
+            $('#navbar').append('<li><a href="#about">Расскажите о себе</a></li>');
+
+            $('[data-spy="scroll"]').each(function () {
+                var $spy = $(this).scrollspy('refresh')
+            });            
+
+            $('#myAffix').affix({
+                offset: {
+                    //top: 100
+                    bottom: function () {
+                        return (this.bottom = $('.bs-footer').outerHeight(true))
+                    }
+                }
+            });
+
+            $('#Rec1,#Rec2,#Rec3,#Rec4,#Rec5,#Rec6,#Rec7,#Rec8').bind('click', function(){
+                $('#RecomendBtn').text(this.text);
+                $('#RecomendBtn').append(' <span class="caret">');
+
+               /* $('#RecomendChoise').find('option:selected').text($('#RecomendChoise').find('option:selected').text().replace(' ✔',''));
+                $('#RecomendChoise').find('option:selected').removeAttr('selected');
+
+                $(this).attr('selected', 'selected');
+                $(this).append(' &#10004;');*/
+            });
+
+/*            $('#q1 textarea').rules('add', {
+                required: true, 
+                message: { required: "Требуется заполнить поле" }
+            });
+
+            $('#shri-form').validate({
+                submitHandler: function(form) {
+                    form.submit();
+                }
+            });*/
+        });
+    </script>
+</head>
+<body data-spy="scroll" data-target="#myAffix">
+    <div id="myAffix" data-spy="affix" data-offset-top="200">
+        <div>
+            <ul id="navbar" class="nav nav-pills nav-stacked">
+            <!-- Navbar questions INSERT -->
+            </ul>
+        </div>
+    </div>
+
+
+	<div class="container">
+        <h1>Анкета второй Школы разработки интерфейсов в Москве</h1>
+        <p>Яндекс открывает набор во вторую Школу разработки интерфейсов в Москве.</p>
+        <p>Для поступления необходимо заполнить анкету с тестовыми заданиями. Приём заявок закрывается 19 августа в 23:59 по московскому времени. По результатам теста мы пригласим в Школу 30-40 человек.</p>
+        <p>Подробности о Школе читайте на <a href="http://events.yandex.ru/shri/" target="_blank">этой странице</a>.</p>
+
+        <form id="shri-form" role="form" method="post">
+            <fieldset id="container">
+            <!-- Questions form INSERT -->
+            </fieldset>
+        </form>
+	</div>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-wip/js/bootstrap.min.js"></script>
+</body>

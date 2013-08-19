@@ -1,0 +1,26 @@
+html { font: Arial, Helvetica, sans-serif; font-size: 13px; }
+
+a { text-decoration: underline; color: blue; }
+a:hover { color: red; }
+a:visited { color: darkmagenta;}
+h1 { font-size: 23px; }
+legend { border: none; margin-bottom: 20px; padding-top: 40px; }
+label { font: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: normal; font-style: italic; }
+textarea.form-control { margin-top: 20px; }
+
+.container { margin-left:25%; width: 70%; }
+.row { padding-bottom: 20px; padding-top: 20px; }
+.line { border-bottom: 1px solid gray; }
+.col-xs-10 span { font: Arial, Helvetica, sans-serif; font-size: 13px; font-weight: bold; }
+.col-xs-10 label { font-style: normal; }
+.col-xs-10 p, .col-xs-10 ul { padding-top: 10px; font-size: 13px; font-weight: bold; }
+.col-xs-10 { font-weight: normal; }
+.col-xs-10 p span { font-weight: normal; }
+
+#myAffix { width: 20%; padding: 30px; }
+#navbar li a { padding: 2px 10px; text-decoration: none; }
+#progress { margin: 20px 0; }
+.dropdown-select, #RecomendBtn { margin-left: 20px; }
+.dropdown-select { width: 250px; padding: 5px 10px; }
+#RecomendChoise { height: 150px; }
+
